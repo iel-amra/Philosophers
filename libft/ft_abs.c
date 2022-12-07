@@ -18,5 +18,5 @@ unsigned int	ft_abs(int nb)
 		return (nb);
 	if (nb != INT_MIN)
 		return (-nb);
-	return (-INT_MIN);
+	return (INT_MIN);
 }

@@ -4,6 +4,8 @@
 # include "../libft/libft.h"
 # include <limits.h>
 # include <pthread.h>
+# include <stdio.h>
+# include <sys/time.h>
 
 typedef struct s_philo
 {

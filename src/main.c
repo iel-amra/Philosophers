@@ -10,6 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+void	waiting_finish(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->nb_philo)
+	{
+		pthread_join(table->philosophers[i].thread, (void *) 0);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_table	table;
@@ -20,9 +32,7 @@ int	main(int argc, char **argv)
 		return (1);
 	if (start_philosophers(&table))
 		ret = 1;
-	/*
-	waiting_finish(*table);
-	*/
+	waiting_finish(&table);
 	destroy_all_mutex(&table);
 	free_memory(&table);
 	return (ret);

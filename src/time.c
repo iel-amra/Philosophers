@@ -25,7 +25,7 @@ struct timeval	time_add(struct timeval t1, struct timeval t2)
 {
 	struct	timeval	time;
 
-	time.tv_usec = t1.tv_usec + t2.tv_usec % 1000000;
+	time.tv_usec = (t1.tv_usec + t2.tv_usec) % 1000000;
 	time.tv_sec = t1.tv_sec + t2.tv_sec + (t1.tv_usec + t2.tv_usec > 1000000);
 	return (time);
 }

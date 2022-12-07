@@ -17,7 +17,7 @@ int	nb_digit(unsigned int nb)
 	i = 0;
 	if (nb == 0)
 		return (1);
-	while (nb > 0)
+	while (nb != 0)
 	{
 		nb /= 10;
 		i++;
@@ -46,7 +46,7 @@ int	fit_in_int(char *str)
 {
 	if (ft_strlen(str) > nb_digit(INT_MAX) && *str != '-')
 		return (0);
-	if (ft_strlen(str) - 1 > nb_digit(-INT_MIN) && *str == '-')
+	if (ft_strlen(str) - 1 > nb_digit(INT_MIN) && *str == '-')
 		return (0);
 	if (ft_strlen(str) < nb_digit(INT_MAX) && *str != '-')
 		return (1);
@@ -54,7 +54,7 @@ int	fit_in_int(char *str)
 		return (1);
 	if (*str != '-' && overflow(str, INT_MAX, nb_digit(INT_MAX) - 1) == 1)
 		return (0);
-	if (*str == '-' && overflow(str + 1, -INT_MIN, nb_digit(INT_MIN) - 1) == 1)
+	if (*str == '-' && overflow(str + 1, INT_MIN, nb_digit(INT_MIN) - 1) == 1)
 		return (0);
 	return (1);
 }

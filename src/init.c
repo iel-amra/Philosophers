@@ -17,6 +17,7 @@ void	destroy_all_mutex(t_table *table)
 	i = 0;
 	while (i < table->nb_philo)
 		pthread_mutex_destroy(table->forks_mutex + i++);
+	pthread_mutex_destroy(&table->m_end);
 }
 
 void	free_memory(t_table *table)
@@ -42,10 +43,16 @@ int	memory_alloc(t_table *table)
 	return (0);
 }
 
-int	create_forks(t_table *table)
+int	create_mutex(t_table *table)
 {
 	int	i;
 
+	if (pthread_mutex_init(&table->m_end, (void *) 0))
+	{
+		ft_dprintf(2, "Mutex init error\n");
+		return (1);
+	}
+	table->end = 0;
 	i = 0;
 	while (i < table->nb_philo)
 	{
@@ -55,6 +62,7 @@ int	create_forks(t_table *table)
 			ft_dprintf(2, "Mutex init error\n");
 			while (i >= 0)
 				pthread_mutex_destroy(table->forks_mutex + i--);
+			pthread_mutex_destroy(&table->m_end);
 			return (1);
 		}
 		i++;
@@ -68,7 +76,7 @@ int	init(t_table *table, int argc, char **argv)
 		return (1);
 	if (memory_alloc(table))
 		return (1);
-	if (create_forks(table))
+	if (create_mutex(table))
 	{
 		free_memory(table);
 		return (1);

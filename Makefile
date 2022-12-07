@@ -12,18 +12,18 @@ OBJ = $(SRC:${SRC_DIR}/%.c=${OBJ_DIR}/%.o)
 OBJ_BONUS = $(SRC_BONUS:${SRC_DIR}/%.c=${OBJ_DIR}/%.o)
 HEADER = ${HEADER_DIR}/principal.h
 LIBFT = libft/libft.a 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror #-fsanitize=thread
 
 all : ${NAME} ${NAME_BONUS}
 
 ${NAME} : ${OBJ}
-	gcc $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME)	
+	gcc $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME) -pthread	
 
 ${NAME_BONUS} : ${OBJ_BONUS} 
 	gcc $(FLAGS) $(OBJ_BONUS) ${LIBFT} -o checker
 
 ${OBJ_DIR}/%.o : ${SRC_DIR}/%.c ${HEADER} Makefile ${LIBFT} | ${OBJ_DIR}
-	gcc -include ${HEADER} $(FLAGS) -c $< -o $@
+	gcc -include ${HEADER} $(FLAGS) -c $< -o $@ -pthread
 
 ${LIBFT} : FORCE
 	make -C libft
