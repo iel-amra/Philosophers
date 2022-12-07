@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 11:23:11 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/08/17 10:26:06 by iel-amra         ###   ########lyon.fr   */
+/*   Updated: 2022/12/01 13:42:58 by iel-amra         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int				ft_isalnum(int c);
 int				ft_isalpha(int c);
 int				ft_isascii(int c);
 int				ft_isdigit(int c);
+int				ft_s_isdigit(char *s);
 int				ft_isprint(int c);
 int				ft_lstsize(t_list *lst);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -75,4 +76,5 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 t_list			*ft_lstnew(void *content);
 t_list			*ft_lstget(t_list *lst, int nb);
+int	fit_in_int(char *str);
 #endif

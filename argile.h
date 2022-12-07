@@ -3,20 +3,30 @@
 
 # include "../libft/libft.h"
 # include <limits.h>
+# include <pthread.h>
 
-# define A_TO_B 1
-# define B_TO_A 2
-# define FIRST_P 4
-# define SECOND_P 8
-# define LAST 16
-
-typedef struct s_stacks
+typedef struct s_philo
 {
-	t_list	*a;
-	t_list	*b;
-	int	nb;
-}	t_stacks;
+	int				id;
+	pthread_t		thread;
+	int				*forks[2];
+	pthread_mutex_t	*m_forks[2];
+	struct timeval 	start_eat;
+	struct timeval	start_sleep;
+	struct timeval	*time_to_die;
+	struct timeval	*time_to_eat;
+	struct timeval	*time_to_sleep;
+	int				must_eat;
+}	t_philo;
 
-enum {PA, RA, RB, RR, PB, RRA, RRB, RRR, SA, SB, SS, SORTED};
-
-static const char str_move[11][4] = {"pa", "ra", "rb", "rr", "pb", "rra", "rrb", "rrr", "sa", "sb", "ss"};
+typedef struct s_table
+{
+	t_philo			*philosophers;
+	pthread_mutex_t	*forks_mutex;
+	int				*forks;
+	int				nb_philo;
+	struct timeval	time_to_die;
+	struct timeval	time_to_eat;
+	struct timeval	time_to_sleep;
+	int				must_eat;
+}	t_table;
