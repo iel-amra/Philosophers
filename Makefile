@@ -17,13 +17,13 @@ FLAGS = -Wall -Wextra -Werror #-fsanitize=thread
 all : ${NAME} ${NAME_BONUS}
 
 ${NAME} : ${OBJ}
-	gcc $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME) -pthread	
+	gcc $(FLAGS) $(OBJ) ${LIBFT} -o $(NAME)
 
 ${NAME_BONUS} : ${OBJ_BONUS} 
 	gcc $(FLAGS) $(OBJ_BONUS) ${LIBFT} -o checker
 
 ${OBJ_DIR}/%.o : ${SRC_DIR}/%.c ${HEADER} Makefile ${LIBFT} | ${OBJ_DIR}
-	gcc -include ${HEADER} $(FLAGS) -c $< -o $@ -pthread
+	gcc -include ${HEADER} $(FLAGS) -c $< -o $@
 
 ${LIBFT} : FORCE
 	make -C libft
