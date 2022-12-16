@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 15:15:42 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/01 18:15:28 by iel-amra         ###   ########lyon.fr   */
+/*   Updated: 2022/12/15 14:09:36 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,14 @@ struct timeval	ms_to_timeval(unsigned long ms)
 
 	time.tv_usec = ms * 1000 % 1000000;
 	time.tv_sec = ms / 1000;
+	return (time);
+}
+
+struct timeval	time_minus(struct timeval t1, struct timeval t2)
+{
+	struct	timeval	time;
+
+	time.tv_usec = (1000000 + t1.tv_usec - t2.tv_usec) % 1000000;
+	time.tv_sec = t1.tv_sec - t2.tv_sec - (t1.tv_usec < t2.tv_usec);
 	return (time);
 }

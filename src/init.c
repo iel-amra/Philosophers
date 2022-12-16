@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:57:32 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/01 17:58:50 by iel-amra         ###   ########lyon.fr   */
+/*   Updated: 2022/12/14 16:01:42 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	destroy_all_mutex(t_table *table)
 	while (i < table->nb_philo)
 		pthread_mutex_destroy(table->forks_mutex + i++);
 	pthread_mutex_destroy(&table->m_end);
+	pthread_mutex_destroy(&table->m_start);
 }
 
 void	free_memory(t_table *table)
@@ -47,8 +48,14 @@ int	create_mutex(t_table *table)
 {
 	int	i;
 
+	if (pthread_mutex_init(&table->m_start, (void *) 0))
+	{
+		ft_dprintf(2, "Mutex init error\n");
+		return (1);
+	}
 	if (pthread_mutex_init(&table->m_end, (void *) 0))
 	{
+		pthread_mutex_destroy(&table->m_start);
 		ft_dprintf(2, "Mutex init error\n");
 		return (1);
 	}
@@ -63,6 +70,7 @@ int	create_mutex(t_table *table)
 			while (i >= 0)
 				pthread_mutex_destroy(table->forks_mutex + i--);
 			pthread_mutex_destroy(&table->m_end);
+			pthread_mutex_destroy(&table->m_start);
 			return (1);
 		}
 		i++;
