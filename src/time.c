@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 15:15:42 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/15 14:09:36 by iel-amra         ###   ########.fr       */
+/*   Updated: 2022/12/20 13:15:12 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	time_is_inf(struct timeval t1, struct timeval t2)
 
 struct timeval	time_add(struct timeval t1, struct timeval t2)
 {
-	struct	timeval	time;
+	struct timeval	time;
 
 	time.tv_usec = (t1.tv_usec + t2.tv_usec) % 1000000;
 	time.tv_sec = t1.tv_sec + t2.tv_sec + (t1.tv_usec + t2.tv_usec > 1000000);
@@ -32,7 +32,7 @@ struct timeval	time_add(struct timeval t1, struct timeval t2)
 
 struct timeval	ms_to_timeval(unsigned long ms)
 {
-	struct	timeval	time;
+	struct timeval	time;
 
 	time.tv_usec = ms * 1000 % 1000000;
 	time.tv_sec = ms / 1000;
@@ -41,9 +41,20 @@ struct timeval	ms_to_timeval(unsigned long ms)
 
 struct timeval	time_minus(struct timeval t1, struct timeval t2)
 {
-	struct	timeval	time;
+	struct timeval	time;
 
 	time.tv_usec = (1000000 + t1.tv_usec - t2.tv_usec) % 1000000;
 	time.tv_sec = t1.tv_sec - t2.tv_sec - (t1.tv_usec < t2.tv_usec);
 	return (time);
+}
+
+void	print_t(char *msg, t_philo *philo)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, (void *) 0);
+	time = time_minus(time, philo->t->time_start);
+	if (philo->t->end != -1 && philo->t->end != philo->t->nb_philo)
+		printf("%06lu%03d %i %s\n", time.tv_sec, time.tv_usec / 1000,
+			philo->id + 1, msg);
 }

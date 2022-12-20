@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 16:57:32 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/14 16:01:42 by iel-amra         ###   ########.fr       */
+/*   Updated: 2022/12/20 13:15:41 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,45 +21,10 @@ void	destroy_all_mutex(t_table *table)
 	pthread_mutex_destroy(&table->m_start);
 }
 
-void	free_memory(t_table *table)
-{
-	free(table->forks_mutex);
-	free(table->forks);
-	free(table->philosophers);
-}
-
-int	memory_alloc(t_table *table)
-{
-	table->philosophers =
-		malloc(sizeof(*table->philosophers) * table->nb_philo);
-	table->forks_mutex =
-		malloc(sizeof(*table->forks_mutex) * table->nb_philo);
-	table->forks = malloc(sizeof(*table->forks) * table->nb_philo);
-	if (!table->philosophers || !table->forks_mutex || !table->forks)
-	{
-		ft_dprintf(2, "Malloc error\n");
-		free_memory(table);
-		return (1);
-	}
-	return (0);
-}
-
-int	create_mutex(t_table *table)
+int	create_mutex_forks(t_table *table)
 {
 	int	i;
 
-	if (pthread_mutex_init(&table->m_start, (void *) 0))
-	{
-		ft_dprintf(2, "Mutex init error\n");
-		return (1);
-	}
-	if (pthread_mutex_init(&table->m_end, (void *) 0))
-	{
-		pthread_mutex_destroy(&table->m_start);
-		ft_dprintf(2, "Mutex init error\n");
-		return (1);
-	}
-	table->end = 0;
 	i = 0;
 	while (i < table->nb_philo)
 	{
@@ -75,6 +40,25 @@ int	create_mutex(t_table *table)
 		}
 		i++;
 	}
+	return (0);
+}
+
+int	create_mutex(t_table *table)
+{
+	if (pthread_mutex_init(&table->m_start, (void *) 0))
+	{
+		ft_dprintf(2, "Mutex init error\n");
+		return (1);
+	}
+	if (pthread_mutex_init(&table->m_end, (void *) 0))
+	{
+		pthread_mutex_destroy(&table->m_start);
+		ft_dprintf(2, "Mutex init error\n");
+		return (1);
+	}
+	table->end = 0;
+	if (create_mutex_forks(table))
+		return (1);
 	return (0);
 }
 
