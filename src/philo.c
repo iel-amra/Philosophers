@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 17:07:18 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/20 13:07:49 by iel-amra         ###   ########.fr       */
+/*   Updated: 2023/01/07 15:22:08 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,6 @@ void	check_death(t_philo *philo)
 		gettimeofday(&time, (void *) 0);
 		pthread_mutex_unlock(&philo->t->m_end);
 	}
-	if (philo->t->must_eat != -1 && philo->eaten >= philo->t->must_eat)
-	{
-		pthread_mutex_lock(&philo->t->m_end);
-		philo->t->end++;
-		philo->eaten = -1;
-		pthread_mutex_unlock(&philo->t->m_end);
-	}
 }
 
 void	*thread_philo(t_philo *philo)
@@ -56,6 +49,8 @@ void	*thread_philo(t_philo *philo)
 	gettimeofday(&time, (void *) 0);
 	print_t("is thinking", philo);
 	pthread_mutex_unlock(&philo->t->m_end);
+	if (philo->id % 2 != 1)
+		usleep(10000);
 	while (!check_end(philo))
 	{	
 		while (!check_end(philo) && thinking(philo))
@@ -79,6 +74,8 @@ int	start_one_philo(t_table *table, t_philo *philo, int i)
 	philo->forks[1] = table->forks + ((philo->id + 1) % table->nb_philo);
 	philo->t = table;
 	philo->eaten = 0;
+	if (philo->t->must_eat == -1)
+		philo->eaten = -1;
 	pthread_create(&philo->thread, (void *) 0, (void *) thread_philo, philo);
 	return (0);
 }

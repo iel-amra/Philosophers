@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 11:23:11 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/01 13:42:58 by iel-amra         ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 17:49:51 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 t_list			*ft_lstnew(void *content);
 t_list			*ft_lstget(t_list *lst, int nb);
-int	fit_in_int(char *str);
+int				fit_in_int(char *str);
 #endif

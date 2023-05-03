@@ -6,14 +6,13 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/17 16:31:00 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/20 13:16:41 by iel-amra         ###   ########.fr       */
+/*   Updated: 2023/01/07 15:06:47 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	forks_take(t_philo *philo, int i)
 {
 	int				ret;
-	struct timeval	time;
 
 	ret = 1;
 	pthread_mutex_lock(philo->m_forks[i]);
@@ -22,7 +21,6 @@ int	forks_take(t_philo *philo, int i)
 		*philo->forks[i] = philo->id + 1;
 		pthread_mutex_unlock(philo->m_forks[i]);
 		pthread_mutex_lock(&philo->t->m_end);
-		gettimeofday(&time, (void *) 0);
 		print_t("has taken a fork", philo);
 		pthread_mutex_unlock(&philo->t->m_end);
 	}
@@ -45,22 +43,18 @@ void	forks_put(t_philo *philo, int i)
 
 int	thinking(t_philo *philo)
 {
-	struct timeval	time;
+	int				f1;
+	int				f2;
 
-	if (forks_take(philo, philo->id % 2))
-	{
-		if (philo->m_forks[0] != philo->m_forks[1]
-			&& forks_take(philo, 1 - (philo->id % 2)))
-		{
-			pthread_mutex_lock(&philo->t->m_end);
-			gettimeofday(&time, (void *) 0);
-			gettimeofday(&philo->start_eat, (void *) 0);
-			print_t("is eating", philo);
-			pthread_mutex_unlock(&philo->t->m_end);
-			return (0);
-		}
-	}
-	return (1);
+	f1 = forks_take(philo, 0);
+	f2 = forks_take(philo, 1);
+	if (!f1 || !f2 || philo->m_forks[0] == philo->m_forks[1])
+		return (1);
+	pthread_mutex_lock(&philo->t->m_end);
+	gettimeofday(&philo->start_eat, (void *) 0);
+	print_t("is eating", philo);
+	pthread_mutex_unlock(&philo->t->m_end);
+	return (0);
 }
 
 int	eating(t_philo *philo)
@@ -74,9 +68,14 @@ int	eating(t_philo *philo)
 		pthread_mutex_lock(&philo->t->m_end);
 		gettimeofday(time, (void *) 0);
 		print_t("is sleeping", philo);
-		pthread_mutex_unlock(&philo->t->m_end);
 		if (philo->eaten != -1)
 			philo->eaten++;
+		if (philo->eaten != -1 && philo->eaten >= philo->t->must_eat)
+		{
+			philo->t->end++;
+			philo->eaten = -1;
+		}
+		pthread_mutex_unlock(&philo->t->m_end);
 		forks_put(philo, 0);
 		forks_put(philo, 1);
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: iel-amra <iel-amra@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/20 13:17:49 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/20 13:46:18 by iel-amra         ###   ########lyon.fr   */
+/*   Updated: 2023/01/07 13:01:32 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_philo
 	t_table			*t;
 }	t_philo;
 
-typedef struct s_table
+struct s_table
 {
 	t_philo			*philosophers;
 	pthread_mutex_t	*forks_mutex;
@@ -47,7 +47,7 @@ typedef struct s_table
 	struct timeval	time_to_sleep;
 	int				must_eat;
 	struct timeval	time_start;
-}	t_table;
+};
 
 int				forks_take(t_philo *philo, int i);
 void			forks_put(t_philo *philo, int i);

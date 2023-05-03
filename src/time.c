@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 15:15:42 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/12/20 13:15:12 by iel-amra         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:53:08 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,6 @@ void	print_t(char *msg, t_philo *philo)
 	gettimeofday(&time, (void *) 0);
 	time = time_minus(time, philo->t->time_start);
 	if (philo->t->end != -1 && philo->t->end != philo->t->nb_philo)
-		printf("%06lu%03d %i %s\n", time.tv_sec, time.tv_usec / 1000,
+		printf("%06lu%03ld %i %s\n", time.tv_sec, time.tv_usec / 1000,
 			philo->id + 1, msg);
 }

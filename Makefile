@@ -7,7 +7,7 @@ SRC = $(SRC_FILES:%.c=${SRC_DIR}/%.c)
 OBJ = $(SRC:${SRC_DIR}/%.c=${OBJ_DIR}/%.o)
 HEADER = ${HEADER_DIR}/principal.h
 LIBFT = libft/libft.a 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -pthread -Wall -Wextra -Werror 
 
 all : ${NAME} 
 
@@ -30,12 +30,12 @@ ${OBJ_DIR} :
 	mkdir $@
 
 clean :
-	rm -f ${OBJ}
+	rm -rf ${OBJ_DIR}
 	make -C libft clean
 
 fclean : clean
 	rm -f ${NAME}
-	rm -f ${OBJ}
+	rm -rf ${OBJ_DIR}
 	make -C libft fclean
 
 re : fclean all

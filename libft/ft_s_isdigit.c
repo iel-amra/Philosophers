@@ -6,7 +6,7 @@
 /*   By: iel-amra <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/24 17:36:02 by iel-amra          #+#    #+#             */
-/*   Updated: 2022/11/24 18:05:31 by iel-amra         ###   ########lyon.fr   */
+/*   Updated: 2022/12/20 17:49:04 by iel-amra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_s_isdigit(char *s)
 {
-	while(*s)
+	while (*s)
 	{
 		if (!ft_isdigit(*(s++)))
 			return (0);
